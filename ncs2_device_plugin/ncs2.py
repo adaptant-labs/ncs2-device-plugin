@@ -23,6 +23,8 @@ class NCS2DeviceManager:
         self.devices = []
         self.corev1 = client.CoreV1Api()
         self.node_name = os.getenv('NODE_NAME', os.uname().nodename).lower()
+        if not self.node_name:
+            raise ValueError('Unable to determine node name')
         self._log = logger
 
         # Carry out the initial instantiation of available NCS2 devices, this is periodically re-triggered by the USB

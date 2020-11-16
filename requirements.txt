@@ -1,4 +1,3 @@
 kubernetes
-openvino-python
 pyusb
 pyudev
