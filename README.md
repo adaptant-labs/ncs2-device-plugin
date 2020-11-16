@@ -1,8 +1,25 @@
 # Intel NCS2 device plugin for Kubernetes
 
 [![PyPI](https://img.shields.io/pypi/v/ncs2-device-plugin.svg)](https://pypi.python.org/pypi/ncs2-device-plugin)
+[![PyPI](https://img.shields.io/pypi/pyversions/ncs2-device-plugin.svg)](https://pypi.python.org/pypi/ncs2-device-plugin)
+[![Docker Pulls](https://img.shields.io/docker/pulls/adaptant/ncs2-device-plugin.svg)](https://hub.docker.com/repository/docker/adaptant/ncs2-device-plugin)
 
 A Kubernetes device plugin for the Intel Neural Compute Stick 2 (NCS2) / Intel Movidius MyriadX
+
+## Quick Start
+
+To directly install `ncs2-device-plugin` as a `DaemonSet` into the Kubernetes cluster:
+
+```
+$ kubectl apply -f https://raw.githubusercontent.com/adaptant-labs/ncs2-device-plugin/ncs2-device-plugin.yaml
+```
+
+Pods will be scheduled on any node with a `feature.node.kubernetes.io/usb-ff_03e7_2485.present` (provided by [NFD]) or
+`accelerators/ncs2` (provided by [k8s-auto-labeller], in combination with NFD-based discovery) label set. These labels
+can also be set manually on NCS2-capable nodes for simple deployments in order to enqueue the Pod.
+
+[NFD]: https://github.com/kubernetes-sigs/node-feature-discovery
+[k8s-auto-labeller]: https://github.com/adaptant-labs/k8s-auto-labeller
 
 ## Annotations
 
