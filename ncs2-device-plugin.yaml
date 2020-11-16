@@ -1,7 +1,42 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: ncs2-device-plugin
+  namespace: kube-system
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: system:ncs2-device-plugin
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["list", "patch", "update", "get"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: system:ncs2-device-plugin
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+subjects:
+  - kind: ServiceAccount
+    name: ncs2-device-plugin
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: system:ncs2-device-plugin
+  apiGroup: rbac.authorization.k8s.io
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: ncs2-device-plugin
+  namespace: kube-system
 spec:
   selector:
     matchLabels:
@@ -11,9 +46,18 @@ spec:
       labels:
         name: ncs2-device-plugin
     spec:
+      serviceAccountName: ncs2-device-plugin
+      volumes:
+        # pyudev depends on udev events being passed through from the host
+        - name: host-udev
+          hostPath:
+            path: "/run/udev"
       containers:
         - name: ncs2-device-plugin
           image: adaptant/ncs2-device-plugin:latest
+          volumeMounts:
+            - name: host-udev
+              mountPath: "/run/udev"
           env:
             - name: NODE_NAME
               valueFrom:
