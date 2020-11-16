@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ncs2-device-plugin
+spec:
+  selector:
+    matchLabels:
+      name: ncs2-device-plugin
+  template:
+    metadata:
+      labels:
+        name: ncs2-device-plugin
+    spec:
+      containers:
+        - name: ncs2-device-plugin
+          image: adaptant/ncs2-device-plugin:latest
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  # k8s-auto-labeller
+                  - key: accelerators/ncs2
+                    operator: Exists
+              - matchExpressions:
+                  # USB-attached NCS2 (using NFD discovery)
+                  - key: feature.node.kubernetes.io/usb-ff_03e7_2485.present
+                    operator: In
+                    values:
+                      - "true"

@@ -20,7 +20,10 @@ def setup_logger():
 def main():
     logger = setup_logger()
 
-    config.load_kube_config()
+    try:
+        config.load_kube_config()
+    except config.config_exception.ConfigException:
+        config.load_incluster_config()
 
     ncs2 = NCS2DeviceManager(logger=logger)
 
