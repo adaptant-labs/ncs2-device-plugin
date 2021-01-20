@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/ncs2-device-plugin.svg)](https://pypi.python.org/pypi/ncs2-device-plugin)
 [![PyPI](https://img.shields.io/pypi/pyversions/ncs2-device-plugin.svg)](https://pypi.python.org/pypi/ncs2-device-plugin)
 [![Docker Pulls](https://img.shields.io/docker/pulls/adaptant/ncs2-device-plugin.svg)](https://hub.docker.com/repository/docker/adaptant/ncs2-device-plugin)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adaptant-labs_ncs2-device-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=adaptant-labs_ncs2-device-plugin)
 
 A Kubernetes device plugin for the Intel Neural Compute Stick 2 (NCS2) / Intel Movidius MyriadX
 
